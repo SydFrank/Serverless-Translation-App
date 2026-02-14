@@ -17,7 +17,7 @@ export class InfrastuctureStack extends cdk.Stack {
 
     // Create a Node.js Lambda function using the NodejsFunction construct
     const lambdaFunction = new lambdaNodeJS.NodejsFunction(this, "timeOfDay", {
-      entry: "./lambda/timeOfDay.js",
+      entry: "./lambda/timeOfDay.ts",
       handler: "index",
       runtime: lambda.Runtime.NODEJS_22_X,
       initialPolicy: [translateAccessPolicy], // Attach the IAM policy to the Lambda function
@@ -25,9 +25,10 @@ export class InfrastuctureStack extends cdk.Stack {
 
     // Create an API Gateway REST API and integrate it with the Lambda function
     const restApi = new apigateway.RestApi(this, "timeOfDayRestApi");
-    // Add a GET method to the root of the API and integrate it with the Lambda function
+
+    // Add a POST method to the root of the API and integrate it with the Lambda function
     restApi.root.addMethod(
-      "GET",
+      "POST",
       new apigateway.LambdaIntegration(lambdaFunction),
     );
   }
