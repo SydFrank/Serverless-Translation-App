@@ -1,0 +1,12 @@
+{
+  "name": "serverless-translation-app",
+  "scripts": {
+    "frontend-dev": "npm run dev --workspace=@sff/frontend",
+    "deploy": "npm run deploy -w infrastructure"
+  },
+  "workspaces": [
+    "apps/*",
+    "infrastructure",
+    "packages/*"
+  ]
+}

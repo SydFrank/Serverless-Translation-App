@@ -1,5 +1,5 @@
 {
-  "name": "infrastucture",
+  "name": "@sff/infrastructure",
   "version": "0.1.0",
   "bin": {
     "infrastucture": "bin/infrastucture.js"
@@ -8,7 +8,8 @@
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
-    "cdk": "cdk"
+    "cdk": "cdk",
+    "deploy": "cdk deploy --require-approval never"
   },
   "devDependencies": {
     "@aws-sdk/client-translate": "^3.990.0",

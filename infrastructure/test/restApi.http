@@ -2,7 +2,8 @@
 #This file contains HTTP requests for testing the REST API endpoint.
 #The @URL variable is set to the base URL of the deployed API Gateway endpoint.
 #Each request can be executed in a REST client to test the functionality of the API.
-@URL=https://8mr2bg29k6.execute-api.ap-southeast-2.amazonaws.com/prod/
+@URL= https://8mr2bg29k6.execute-api.ap-southeast-2.amazonaws.com/prod/
+
 
 
 POST {{URL}} HTTP/1.1
