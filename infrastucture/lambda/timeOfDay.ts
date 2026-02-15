@@ -45,13 +45,25 @@ export const index: lambda.APIGatewayProxyHandler = async function (
 
     return {
       statusCode: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "*", // Allow CORS for all origins
+        "Access-Control-Allow-Credentials": true, // Allow credentials (cookies, authorization headers, etc.)
+        "Access-Control-Allow-Methods": "*", // Allow all HTTP methods (GET, POST, etc.)
+        "Access-Control-Allow-Headers": "*", // Allow all headers
+      },
       body: JSON.stringify(rtnDate), // Return the translated time of day in the response body
     };
   } catch (err: any) {
     console.log(err);
     return {
       statusCode: 500,
-      body: err.toString(), // Return the error message in the response body
+      headers: {
+        "Access-Control-Allow-Origin": "*", // Allow CORS for all origins
+        "Access-Control-Allow-Credentials": true, // Allow credentials (cookies, authorization headers, etc.)
+        "Access-Control-Allow-Methods": "*", // Allow all HTTP methods (GET, POST, etc.)
+        "Access-Control-Allow-Headers": "*", // Allow all headers
+      },
+      body: JSON.stringify(err.toString()), // Return the error message in the response body
     };
   }
 };
