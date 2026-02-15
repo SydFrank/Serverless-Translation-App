@@ -1,5 +1,6 @@
 import * as clientTranslate from "@aws-sdk/client-translate"; // AWS SDK client for Amazon Translate
 import * as lambda from "aws-lambda"; // AWS Lambda types
+import { ITranslateRequest, ITranslateResponse } from "@sff/shared-types";
 
 // Create an instance of the Translate client
 const translateClient = new clientTranslate.TranslateClient({});
@@ -18,9 +19,23 @@ export const index: lambda.APIGatewayProxyHandler = async function (
     }
 
     // Parse the request body (if needed)
-    const body = JSON.parse(event.body);
+    const body = JSON.parse(event.body) as ITranslateRequest;
+
+    // Validate the request body to ensure that the required fields are present
+    if (!body.sourceLang) {
+      throw new Error("sourceLang is empty");
+    }
+    // Validate the request body to ensure that the required fields are present
+    if (!body.targetLang) {
+      throw new Error("targetLang is empty");
+    }
+    // Validate the request body to ensure that the required fields are present
+    if (!body.sourceText) {
+      throw new Error("sourceText is empty");
+    }
+
     // Extract the source language, target language, and text from the request body (if needed)
-    const { sourceLang, targetLang, text } = body;
+    const { sourceLang, targetLang, sourceText } = body;
 
     // Get the current time of day
     const now = new Date(Date.now()).toString();
@@ -30,17 +45,21 @@ export const index: lambda.APIGatewayProxyHandler = async function (
     const translateCmd = new clientTranslate.TranslateTextCommand({
       SourceLanguageCode: sourceLang,
       TargetLanguageCode: targetLang,
-      Text: text,
+      Text: sourceText,
     });
 
     // Send the translation command to the Translate client
     const result = await translateClient.send(translateCmd);
     console.log(`Translated text: ${result.TranslatedText}`);
 
+    // Check if the translation result is empty
+    if (!result.TranslatedText) {
+      throw new Error("Translation is empty");
+    }
     // Create a response object containing the translated time of day
-    const rtnDate = {
+    const rtnDate: ITranslateResponse = {
       timeStamp: now,
-      text: result.TranslatedText,
+      targetText: result.TranslatedText,
     };
 
     return {
